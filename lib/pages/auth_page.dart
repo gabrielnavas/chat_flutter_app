@@ -1,5 +1,5 @@
 import 'package:chat_flutter_app/components/auth_form.dart';
-import 'package:chat_flutter_app/models/auth_form_data.dart';
+import 'package:chat_flutter_app/core/models/auth_form_data.dart';
 import 'package:chat_flutter_app/pages/loading_page.dart';
 import 'package:flutter/material.dart';
 
@@ -13,10 +13,35 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   bool _isLoading = false;
 
-  void _handleSubmit(AuthFormData authFormData) {
+  Future<void> _handleSubmit(AuthFormData authFormData) async {
     setState(() => _isLoading = true);
-    print(authFormData);
-    setState(() => _isLoading = false);
+    try {
+      print(authFormData);
+
+      if (authFormData.isSignin) {
+        print('is signin');
+      } else if (authFormData.isSignup) {
+        print('is signup');
+      }
+    } catch (ex) {
+      _showError("Ocorreu um problema. Tente novamente mais tarde.");
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  void _showError(String error) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(
+        error,
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 14,
+        ),
+      ),
+      backgroundColor: Colors.redAccent,
+    ));
   }
 
   @override

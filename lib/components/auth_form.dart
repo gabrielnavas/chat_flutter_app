@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:chat_flutter_app/components/user_image_picker.dart';
-import 'package:chat_flutter_app/models/auth_form_data.dart';
+import 'package:chat_flutter_app/core/models/auth_form_data.dart';
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
@@ -21,7 +21,7 @@ class _AuthFormState extends State<AuthForm> {
     setState(() => _authFormData.image = image);
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     final isValidate = _formKey.currentState!.validate();
     if (!isValidate) {
       return;
@@ -29,18 +29,22 @@ class _AuthFormState extends State<AuthForm> {
 
     String? error = _authFormData.validate();
     if (error != null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-          error,
-          style: const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
-        ),
-        backgroundColor: Colors.redAccent,
-      ));
+      _showError(error);
       return;
     }
 
     widget.onSubmit(_authFormData);
+  }
+
+  void _showError(String error) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(
+        error,
+        style: const TextStyle(
+            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+      ),
+      backgroundColor: Colors.redAccent,
+    ));
   }
 
   @override
