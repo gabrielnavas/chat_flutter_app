@@ -86,4 +86,39 @@ class AuthFormData {
     }
     return null;
   }
+
+  String? validateImage(File? image) {
+    if (image == null) {
+      return "Defina uma image.";
+    }
+    return null;
+  }
+
+  String? validate() {
+    String? nameError = validateName(name);
+    if (nameError != null) {
+      return nameError;
+    }
+    String? emailError = validateEmail(email);
+    if (emailError != null) {
+      return emailError;
+    }
+    String? passwordError = validateName(password);
+    if (passwordError != null) {
+      return passwordError;
+    }
+    String? passwordConfirmationError = validateName(passwordConfirmation);
+    if (passwordConfirmationError != null) {
+      return passwordConfirmationError;
+    }
+    String? passwordsEqual = validatePasswords(password, passwordConfirmation);
+    if (passwordsEqual != null) {
+      return passwordsEqual;
+    }
+    String? imageError = validateImage(image);
+    if (imageError != null) {
+      return imageError;
+    }
+    return null;
+  }
 }
