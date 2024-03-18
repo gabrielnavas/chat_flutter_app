@@ -1,7 +1,27 @@
+import 'package:chat_flutter_app/models/auth_form_data.dart';
 import 'package:flutter/material.dart';
 
-class AuthForm extends StatelessWidget {
-  const AuthForm({super.key});
+class AuthForm extends StatefulWidget {
+  final void Function(AuthFormData) onSubmit;
+
+  const AuthForm({required this.onSubmit, super.key});
+
+  @override
+  State<AuthForm> createState() => _AuthFormState();
+}
+
+class _AuthFormState extends State<AuthForm> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  AuthFormData _authFormData = AuthFormData();
+
+  void _submit() {
+    final isValidate = _formKey.currentState!.validate();
+    if (!isValidate) {
+      return;
+    }
+
+    widget.onSubmit(_authFormData);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,30 +30,61 @@ class AuthForm extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
+          key: _formKey,
           child: Column(
             children: [
-              TextFormField(
-                decoration: const InputDecoration(
-                  label: Text('Nome'),
+              if (_authFormData.isSignup)
+                TextFormField(
+                  key: const ValueKey('ame'),
+                  initialValue: _authFormData.name,
+                  onChanged: (value) =>
+                      setState(() => _authFormData.name = value),
+                  decoration: const InputDecoration(
+                    label: Text('Nome'),
+                  ),
+                  validator: (name) =>
+                      AuthFormData.validateName(name?.trim() ?? ''),
                 ),
-              ),
               TextFormField(
+                key: const ValueKey('email'),
+                initialValue: _authFormData.email,
+                onChanged: (value) =>
+                    setState(() => _authFormData.email = value),
                 decoration: const InputDecoration(
                   label: Text('E-mail'),
                 ),
+                validator: (email) =>
+                    AuthFormData.validateEmail(email?.trim() ?? ''),
               ),
               TextFormField(
+                key: const ValueKey('password'),
+                initialValue: _authFormData.password,
+                onChanged: (value) =>
+                    setState(() => _authFormData.password = value),
                 obscureText: true,
                 decoration: const InputDecoration(
                   label: Text('Senha'),
                 ),
+                validator: (password) => _authFormData.isSignup
+                    ? AuthFormData.validatePasswords(password?.trim() ?? '',
+                        _authFormData.passwordConfirmation)
+                    : AuthFormData.validatePassword(password?.trim() ?? ''),
               ),
-              TextFormField(
-                obscureText: true,
-                decoration: const InputDecoration(
-                  label: Text('Confirmação de Senha'),
+              if (_authFormData.isSignup)
+                TextFormField(
+                  key: const ValueKey('passwordConfirmation'),
+                  initialValue: _authFormData.passwordConfirmation,
+                  onChanged: (value) => setState(
+                      () => _authFormData.passwordConfirmation = value),
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    label: Text('Confirmação de Senha'),
+                  ),
+                  validator: (passwordConfirmation) =>
+                      AuthFormData.validatePasswords(
+                          passwordConfirmation?.trim() ?? '',
+                          _authFormData.password),
                 ),
-              ),
               const SizedBox(
                 height: 12,
               ),
@@ -44,23 +95,29 @@ class AuthForm extends StatelessWidget {
                   backgroundColor: Colors.blueAccent,
                   foregroundColor: Colors.white,
                 ),
-                onPressed: () {},
-                child: const Text('Entrar'),
+                onPressed: _submit,
+                child: Text(_authFormData.isSignin ? 'Entrar' : 'Cadastrar'),
               ),
               const SizedBox(
                 height: 12,
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    _authFormData.toggleAuthMode();
+                  });
+                },
                 style: TextButton.styleFrom(
                   textStyle: const TextStyle(
                       fontSize: 13.5, fontWeight: FontWeight.bold),
                   backgroundColor: const Color.fromARGB(255, 239, 239, 239),
                   foregroundColor: Colors.white,
                 ),
-                child: const Text(
-                  'Criar uma nova conta',
-                  style: TextStyle(color: Colors.blueAccent),
+                child: Text(
+                  _authFormData.isSignin
+                      ? 'Criar uma nova conta'
+                      : 'Já possui conta?',
+                  style: const TextStyle(color: Colors.blueAccent),
                 ),
               )
             ],
