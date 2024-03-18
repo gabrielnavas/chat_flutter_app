@@ -32,9 +32,10 @@ class _AuthFormState extends State<AuthForm> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
           error,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
         ),
-        backgroundColor: Colors.black45,
+        backgroundColor: Colors.redAccent,
       ));
       return;
     }
