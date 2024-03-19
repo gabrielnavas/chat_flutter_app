@@ -1,3 +1,4 @@
+import 'package:chat_flutter_app/core/services/auth/auth_service_mock.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatelessWidget {
@@ -5,9 +6,17 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text('chat page'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('chat page'),
+            ElevatedButton(
+                onPressed: () => AuthServiceMock().logout(),
+                child: const Text('Logout'))
+          ],
+        ),
       ),
     );
   }

@@ -95,30 +95,36 @@ class AuthFormData {
   }
 
   String? validate() {
-    String? nameError = validateName(name);
-    if (nameError != null) {
-      return nameError;
+    if (isSignup) {
+      String? nameError = validateName(name);
+      if (nameError != null) {
+        return nameError;
+      }
+      String? imageError = validateImage(image);
+      if (imageError != null) {
+        return imageError;
+      }
+      String? passwordConfirmationError =
+          validatePassword(passwordConfirmation);
+      if (passwordConfirmationError != null) {
+        return passwordConfirmationError;
+      }
+      String? passwordsEqual =
+          validatePasswords(password, passwordConfirmation);
+      if (passwordsEqual != null) {
+        return passwordsEqual;
+      }
     }
+
     String? emailError = validateEmail(email);
     if (emailError != null) {
       return emailError;
     }
-    String? passwordError = validateName(password);
+    String? passwordError = validatePassword(password);
     if (passwordError != null) {
       return passwordError;
     }
-    String? passwordConfirmationError = validateName(passwordConfirmation);
-    if (passwordConfirmationError != null) {
-      return passwordConfirmationError;
-    }
-    String? passwordsEqual = validatePasswords(password, passwordConfirmation);
-    if (passwordsEqual != null) {
-      return passwordsEqual;
-    }
-    String? imageError = validateImage(image);
-    if (imageError != null) {
-      return imageError;
-    }
+
     return null;
   }
 }

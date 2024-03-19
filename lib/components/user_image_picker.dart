@@ -40,7 +40,9 @@ class _UserImagePickerState extends State<UserImagePicker> {
         CircleAvatar(
           radius: 40,
           backgroundColor: Colors.black54,
-          backgroundImage: _image != null ? FileImage(_image!) : null,
+          backgroundImage: _image == null
+              ? Image.asset('assets/images/avatar.png').image
+              : FileImage(_image!),
         ),
         TextButton(
             onPressed: () async => _pickImage(),

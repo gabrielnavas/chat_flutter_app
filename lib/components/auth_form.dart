@@ -27,25 +27,28 @@ class _AuthFormState extends State<AuthForm> {
       return;
     }
 
-    String? error = _authFormData.validate();
-    if (error != null) {
-      _showError(error);
-      return;
-    }
+    // String? error = _authFormData.validate();
+    // if (error != null) {
+    //   _showError(error);
+    //   return;
+    // }
 
     widget.onSubmit(_authFormData);
   }
 
-  void _showError(String error) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-        error,
-        style: const TextStyle(
-            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
-      ),
-      backgroundColor: Colors.redAccent,
-    ));
-  }
+  // void _showError(String error) {
+  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //     content: Text(
+  //       error,
+  //       style: const TextStyle(
+  //         color: Colors.white,
+  //         fontWeight: FontWeight.bold,
+  //         fontSize: 14,
+  //       ),
+  //     ),
+  //     backgroundColor: Colors.redAccent,
+  //   ));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -63,15 +66,16 @@ class _AuthFormState extends State<AuthForm> {
                 ),
               if (_authFormData.isSignup)
                 TextFormField(
-                  key: const ValueKey('ame'),
+                  key: const ValueKey('name'),
                   initialValue: _authFormData.name,
                   onChanged: (value) =>
                       setState(() => _authFormData.name = value),
                   decoration: const InputDecoration(
                     label: Text('Nome'),
                   ),
-                  validator: (name) =>
-                      AuthFormData.validateName(name?.trim() ?? ''),
+                  validator: (name) => _authFormData.isSignup
+                      ? AuthFormData.validateName(name?.trim() ?? '')
+                      : null,
                 ),
               TextFormField(
                 key: const ValueKey('email'),
@@ -108,10 +112,11 @@ class _AuthFormState extends State<AuthForm> {
                   decoration: const InputDecoration(
                     label: Text('Confirmação de Senha'),
                   ),
-                  validator: (passwordConfirmation) =>
-                      AuthFormData.validatePasswords(
+                  validator: (passwordConfirmation) => _authFormData.isSignup
+                      ? AuthFormData.validatePasswords(
                           passwordConfirmation?.trim() ?? '',
-                          _authFormData.password),
+                          _authFormData.password)
+                      : null,
                 ),
               const SizedBox(
                 height: 12,

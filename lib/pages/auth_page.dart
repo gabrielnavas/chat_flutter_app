@@ -18,16 +18,16 @@ class _AuthPageState extends State<AuthPage> {
     setState(() => _isLoading = true);
     try {
       if (authFormData.isSignin) {
-        AuthServiceMock().signin(
+        await AuthServiceMock().signin(
           authFormData.email,
           authFormData.password,
         );
       } else if (authFormData.isSignup) {
-        AuthServiceMock().signup(
+        await AuthServiceMock().signup(
           authFormData.name,
           authFormData.email,
           authFormData.password,
-          authFormData.image!,
+          authFormData.image,
         );
       }
     } catch (ex) {

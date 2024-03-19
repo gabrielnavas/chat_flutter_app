@@ -8,8 +8,6 @@ class LoadingPage extends StatefulWidget {
 }
 
 class _LoadingPageState extends State<LoadingPage> {
-  String dotResult = '';
-
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
