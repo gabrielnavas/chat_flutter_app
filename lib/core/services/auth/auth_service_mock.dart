@@ -15,6 +15,8 @@ class AuthServiceMock implements AuthService {
     _updateUser(null);
   });
 
+  AuthServiceMock();
+
   @override
   ChatUser? get currentUser => _currentUser;
 

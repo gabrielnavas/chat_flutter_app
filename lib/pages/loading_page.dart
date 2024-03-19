@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 class LoadingPage extends StatefulWidget {
@@ -14,45 +12,29 @@ class _LoadingPageState extends State<LoadingPage> {
 
   @override
   Widget build(BuildContext context) {
-    _changeDots();
-
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.blueAccent,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Carregando$dotResult",
-              style: const TextStyle(
+              "Carregando...",
+              style: TextStyle(
                 color: Colors.white,
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(
+            SizedBox(
               height: 10,
             ),
-            const CircularProgressIndicator(
+            CircularProgressIndicator(
               color: Colors.white,
             )
           ],
         ),
       ),
     );
-  }
-
-  void _changeDots() {
-    const dot = '.';
-
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        if (DateTime.now().second % 2 == 0) {
-          dotResult = '$dot$dot$dot';
-        } else {
-          dotResult = '$dot$dot';
-        }
-      });
-    });
   }
 }
