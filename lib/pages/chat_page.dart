@@ -1,4 +1,4 @@
-import 'package:chat_flutter_app/core/services/auth/auth_service_mock.dart';
+import 'package:chat_flutter_app/core/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatelessWidget {
@@ -13,7 +13,7 @@ class ChatPage extends StatelessWidget {
           children: [
             const Text('chat page'),
             ElevatedButton(
-                onPressed: () => AuthServiceMock().logout(),
+                onPressed: () => AuthService().logout(),
                 child: const Text('Logout'))
           ],
         ),
