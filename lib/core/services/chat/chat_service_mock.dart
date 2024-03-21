@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:chat_flutter_app/core/models/chat_message.dart';
 import 'package:chat_flutter_app/core/models/chat_user.dart';
 import 'package:chat_flutter_app/core/services/chat/chat_service.dart';
+import 'package:faker/faker.dart';
 
 class ChatServiceMock implements ChatService {
   static final List<ChatMessage> _msgs = [
@@ -16,7 +17,7 @@ class ChatServiceMock implements ChatService {
         userImageUrl: 'assets/images/avatar.png'),
     ChatMessage(
         id: '2',
-        text: List.generate(50, (index) => 'Bom dia joão!').join(''),
+        text: faker.lorem.words(50).join(' '),
         createdAt: DateTime.now(),
         userId: '2',
         userName: 'Maria',

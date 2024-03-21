@@ -74,12 +74,16 @@ class ChatPage extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: const SafeArea(
-        child: Column(
-          children: [
-            Expanded(child: Messages()),
-            NewMessage(),
-          ],
+      body: SafeArea(
+        child: Container(
+          decoration:
+              const BoxDecoration(color: Color.fromARGB(80, 33, 149, 243)),
+          child: const Column(
+            children: [
+              Expanded(child: Messages()),
+              NewMessage(),
+            ],
+          ),
         ),
       ),
     );
