@@ -77,7 +77,7 @@ class ChatPage extends StatelessWidget {
       body: SafeArea(
         child: Container(
           decoration:
-              const BoxDecoration(color: Color.fromARGB(80, 33, 149, 243)),
+              const BoxDecoration(color: Color.fromARGB(111, 181, 222, 255)),
           child: const Column(
             children: [
               Expanded(child: Messages()),
