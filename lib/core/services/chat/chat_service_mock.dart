@@ -10,7 +10,7 @@ class ChatServiceMock implements ChatService {
   static final List<ChatMessage> _msgs = [
     ChatMessage(
         id: '1',
-        text: 'Bom dia!',
+        text: faker.lorem.words(20).join(' '),
         createdAt: DateTime.now(),
         userId: '1',
         userName: 'John',

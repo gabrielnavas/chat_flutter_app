@@ -1,6 +1,7 @@
+import 'dart:io';
+
 import 'package:chat_flutter_app/core/models/chat_message.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 class MessageBubble extends StatelessWidget {
@@ -15,7 +16,9 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String messageFormatted = _formatText();
+    double width = _calculateWidthCard(context);
+
+    final String messageFormatted = _formatText();
     final BorderRadius borderCard = _borderCard();
 
     return Stack(
@@ -29,6 +32,7 @@ class MessageBubble extends StatelessWidget {
               borderRadius: borderCard,
             ),
             child: Container(
+              width: width,
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
               decoration: _backgroundCard(borderCard),
               child: Column(
@@ -58,22 +62,42 @@ class MessageBubble extends StatelessWidget {
             ),
           ),
         ),
-        _userAvatarImage(
-          const CircleAvatar(
-            backgroundColor: Colors.pink,
-          ),
-        )
+        _userAvatarImage(width),
       ],
     );
   }
 
-  Positioned _userAvatarImage(CircleAvatar circleAvatar) {
+  double _calculateWidthCard(BuildContext context) {
+    final double widthScreen = MediaQuery.of(context).size.width;
+    final double width = widthScreen * 0.68;
+    return width;
+  }
+
+  Positioned _userAvatarImage(double widthToLeft) {
+    ImageProvider provider = _makeProviderBackgroundImage();
     return Positioned(
-      left: belongsToCurrentUser ? null : 10,
+      left: belongsToCurrentUser ? null : widthToLeft,
       right: belongsToCurrentUser ? 20 : null,
-      top: belongsToCurrentUser ? 5 : null,
-      child: circleAvatar,
+      top: belongsToCurrentUser ? 1 : 1,
+      child: CircleAvatar(
+        backgroundColor: Colors.pink,
+        backgroundImage: provider,
+      ),
     );
+  }
+
+  ImageProvider _makeProviderBackgroundImage() {
+    ImageProvider? provider;
+    final uri = Uri.parse(message.userImageUrl);
+    if (uri.path.contains("assets")) {
+      final String uriReplaced = uri.toString().replaceAll("Path: ", "");
+      provider = AssetImage(uriReplaced);
+    } else if (uri.scheme.contains('http')) {
+      provider = NetworkImage(uri.toString());
+    } else {
+      provider = FileImage(File(uri.toString()));
+    }
+    return provider;
   }
 
   Alignment _alignmentContentStack() =>
