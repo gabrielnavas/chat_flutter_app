@@ -20,7 +20,7 @@ class _NewMessageState extends State<NewMessage> {
       return;
     }
 
-    await ChatService().save(_message, user);
+    await ChatService().save(_message.trim(), user);
     _messageController.clear();
   }
 
@@ -37,6 +37,12 @@ class _NewMessageState extends State<NewMessage> {
             ),
             controller: _messageController,
             onChanged: (value) => setState(() => _message = value),
+            onSubmitted: (_) {
+              if (_message.isEmpty) {
+                return;
+              }
+              _sendMessage();
+            },
           ),
         ),
         if (_message.isNotEmpty)
