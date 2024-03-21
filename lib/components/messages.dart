@@ -15,9 +15,16 @@ class Messages extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
-          } else if (!snapshot.hasData) {
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(
-              child: Text('Nenhuma mensagem encontrada'),
+              child: Text(
+                'Nenhuma mensagem encontrada',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 17,
+                  color: Colors.black54,
+                ),
+              ),
             );
           }
 
