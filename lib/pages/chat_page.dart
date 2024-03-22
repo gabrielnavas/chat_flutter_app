@@ -29,44 +29,46 @@ class ChatPage extends StatelessWidget {
         backgroundColor: Colors.blueAccent,
         centerTitle: true,
         actions: [
-          DropdownButton(
-            icon: const Icon(
-              Icons.more_vert,
-              color: Colors.white,
+          DropdownButtonHideUnderline(
+            child: DropdownButton(
+              icon: const Icon(
+                Icons.more_vert,
+                color: Colors.white,
+              ),
+              items: const [
+                DropdownMenuItem(
+                  value: MenuItemValue.logout,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.exit_to_app,
+                        color: Colors.black87,
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Text(
+                        'Sair',
+                      ),
+                    ],
+                  ),
+                )
+              ],
+              onChanged: (value) {
+                if (value == null) {
+                  return;
+                }
+                switch (value) {
+                  case MenuItemValue.logout:
+                    AuthService().logout().catchError(
+                          (error) => _showError(
+                            'Tente novamente mais tarde.',
+                            context,
+                          ),
+                        );
+                }
+              },
             ),
-            items: const [
-              DropdownMenuItem(
-                value: MenuItemValue.logout,
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.exit_to_app,
-                      color: Colors.black87,
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Text(
-                      'Sair',
-                    ),
-                  ],
-                ),
-              )
-            ],
-            onChanged: (value) {
-              if (value == null) {
-                return;
-              }
-              switch (value) {
-                case MenuItemValue.logout:
-                  AuthService().logout().catchError(
-                        (error) => _showError(
-                          'Tente novamente mais tarde.',
-                          context,
-                        ),
-                      );
-              }
-            },
           )
         ],
         title: const Text(
