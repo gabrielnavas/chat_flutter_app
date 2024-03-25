@@ -2,6 +2,7 @@ import 'package:chat_flutter_app/components/messages.dart';
 import 'package:chat_flutter_app/components/new_message.dart';
 import 'package:chat_flutter_app/core/services/auth/auth_service.dart';
 import 'package:chat_flutter_app/core/services/notification/chat_notification_service.dart';
+import 'package:chat_flutter_app/pages/notification_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:badges/badges.dart' as badges;
@@ -81,9 +82,14 @@ class ChatPage extends StatelessWidget {
           ),
           badges.Badge(
             badgeContent: Text(notificationsCount.toString()),
-            child: const Icon(
-              Icons.notifications,
-              color: Color.fromARGB(221, 255, 253, 253),
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
+                  return const NotificationPage();
+                }));
+              },
+              icon: const Icon(Icons.notifications),
+              color: const Color.fromARGB(221, 255, 253, 253),
             ),
           ),
           const SizedBox(
