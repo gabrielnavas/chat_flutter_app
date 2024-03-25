@@ -1,7 +1,11 @@
 import 'package:chat_flutter_app/components/messages.dart';
 import 'package:chat_flutter_app/components/new_message.dart';
 import 'package:chat_flutter_app/core/services/auth/auth_service.dart';
+import 'package:chat_flutter_app/core/services/notification/chat_notification_service.dart';
 import 'package:flutter/material.dart';
+
+import 'package:badges/badges.dart' as badges;
+import 'package:provider/provider.dart';
 
 enum MenuItemValue { logout }
 
@@ -24,6 +28,8 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final int notificationsCount =
+        Provider.of<ChatNotificationService>(context).itemsCount;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
@@ -73,12 +79,15 @@ class ChatPage extends StatelessWidget {
           const SizedBox(
             width: 15,
           ),
-          const Icon(
-            Icons.notifications,
-            color: Color.fromARGB(221, 255, 253, 253),
+          badges.Badge(
+            badgeContent: Text(notificationsCount.toString()),
+            child: const Icon(
+              Icons.notifications,
+              color: Color.fromARGB(221, 255, 253, 253),
+            ),
           ),
           const SizedBox(
-            width: 10,
+            width: 15,
           ),
         ],
         title: const Text(
