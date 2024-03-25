@@ -52,7 +52,7 @@ class ChatPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                )
+                ),
               ],
               onChanged: (value) {
                 if (value == null) {
@@ -69,7 +69,17 @@ class ChatPage extends StatelessWidget {
                 }
               },
             ),
-          )
+          ),
+          const SizedBox(
+            width: 15,
+          ),
+          const Icon(
+            Icons.notifications,
+            color: Color.fromARGB(221, 255, 253, 253),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
         ],
         title: const Text(
           'Chat',
